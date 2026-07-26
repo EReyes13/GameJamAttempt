@@ -1,11 +1,12 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NewGM : MonoBehaviour
 {
      public static NewGM instance{get; private set;}
 
-    public float GameDuration = 300;
+    public float GameDuration = 120;
 
     public bool playing = true;
 
@@ -19,6 +20,14 @@ public class NewGM : MonoBehaviour
     public TextMeshPro countimg;
 
     public TextMeshPro scoreimg;
+
+    public AudioSource music;
+
+    public AudioSource gameover;
+
+    public AudioClip gamo;
+
+    public Button OverButton;
 
    
 
@@ -36,6 +45,7 @@ public class NewGM : MonoBehaviour
     void Start()
     {
         GenerateTicket();
+        music.Play();
     }
 
     // Update is called once per frame
@@ -46,7 +56,7 @@ public class NewGM : MonoBehaviour
         {
             Endgame();
         }
-        timer -= Time.deltaTime;
+        timer -= Time.deltaTime * 2;
         if(timer <= 0)
         {
             if(playing)
@@ -63,6 +73,9 @@ public class NewGM : MonoBehaviour
      public void Endgame()
     {
         playing = false;
+        music.Stop();
+        gameover.PlayOneShot(gamo);
+        OverButton.gameObject.SetActive(true);
     }
     public void AddScore(int amount, GameObject target)
     {

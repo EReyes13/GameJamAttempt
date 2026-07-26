@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Ramen : MonoBehaviour
@@ -8,6 +10,14 @@ public class Ramen : MonoBehaviour
     public List<string> ingredients = new List<string>();
 
     public Ticket customer;
+
+    public AudioSource effects;
+
+    public AudioClip sfx;
+
+    public AudioClip plate;
+
+    public TextMeshPro bowl_ingredients;
 
 
     void Awake()
@@ -24,7 +34,15 @@ public class Ramen : MonoBehaviour
 
     public void AddIngredient(string ingredient)
     {
+        if(ingredients.Count < 4)
+        {
+        effects.PlayOneShot(sfx);
         ingredients.Add(ingredient);
+        bowl_ingredients.text += ingredient;
+        bowl_ingredients.text += "\n";
+        }
+       
+            
     }
 
     public void ClearRamenBowl()
@@ -40,6 +58,8 @@ public class Ramen : MonoBehaviour
 
     public void SubmitBowl()
     {
+        effects.PlayOneShot(plate);
         customer.CompareTicket(ingredients);
+        bowl_ingredients.text = " ";
     }
 }
